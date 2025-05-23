@@ -274,7 +274,7 @@ class YTDriver:
             # check if ad is being shown
             try:
                 self.__logger.info('Checking for ads')
-                WebDriverWait(self.driver, 1).until(
+                WebDriverWait(self.driver, 5).until(
                     EC.presence_of_element_located((By.CLASS_NAME, 'ytp-ad-player-overlay-layout'))
                 )
             except:
@@ -286,13 +286,13 @@ class YTDriver:
             # check for ad type
             try:
                 self.__logger.info("Checking for ad type")
-                WebDriverWait(self.driver, 1).until(
+                WebDriverWait(self.driver, 5).until(
                     EC.presence_of_element_located((By.CLASS_NAME, 'ytp-skip-ad-button'))
                 )
             except:
                 self.__logger.info("Unskippable ad, waiting 15 seconds")
                 sleep(15)
-                return
+                continue
 
             try:
                 self.__logger.info("Skippable ad, waiting for skip button")
@@ -300,7 +300,7 @@ class YTDriver:
                     EC.element_to_be_clickable((By.CLASS_NAME, 'ytp-skip-ad-button'))
                 ).click()
             except:
-                pass
+                continue
 
     def __clear_prompts(self):
         try:
@@ -311,6 +311,3 @@ class YTDriver:
     
     def __init_chrome(self, profile_dir, headless, version_main):
         self.driver = uc.Chrome(user_data_dir=profile_dir, headless=headless, use_subprocess=False, version_main=version_main)
-
-
-
