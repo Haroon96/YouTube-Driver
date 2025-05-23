@@ -211,7 +211,8 @@ class YTDriver:
             self.__click_play_button()
             self.__handle_ads()
             self.__clear_prompts()
-            sleep(duration)
+            # subtract ad handling time overhead
+            sleep(duration - 5)
         except WebDriverException as e:
             self.__logger.exception(e)
 
