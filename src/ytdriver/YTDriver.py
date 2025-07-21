@@ -153,12 +153,12 @@ class YTDriver:
 
         # wait for recommendations
         elems = WebDriverWait(self.driver, 30).until(
-            EC.presence_of_all_elements_located((By.XPATH, '//ytd-compact-video-renderer|//ytd-rich-item-renderer'))
+            EC.presence_of_all_elements_located((By.XPATH, '//ytd-watch-next-secondary-results-renderer/div[@id="items"]/yt-lockup-view-model/div/a'))
         )
 
         # recommended videos array
         elems = [el for el in elems if el.is_displayed()]
-        return [Video(elem, elem.find_element(By.TAG_NAME, 'a').get_attribute('href')) for elem in elems[:topn]]
+        return [Video(elem, elem.get_attribute('href')) for elem in elems[:topn]]
 
     def search_videos(self, query, scroll_times=0) -> list[Video]:
         """
